@@ -1,0 +1,18 @@
+{
+  "name": "dimbu",
+  "version": "1.0.0",
+  "description": "Simple Docker images builder",
+  "author": "iZonder <izonder@gmail.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/izonder/dimbu.git"
+  },
+  "bugs": {
+    "url": "https://github.com/izonder/dimbu/issues"
+  },
+  "homepage": "https://github.com/izonder/dimbu#readme",
+  "bin": {
+    "dimbu": "./dimbu.sh"
+  }
+}
