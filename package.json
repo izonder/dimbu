@@ -1,6 +1,6 @@
 {
   "name": "dimbu",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "Simple Docker images builder",
   "author": "iZonder <izonder@gmail.com>",
   "license": "MIT",
