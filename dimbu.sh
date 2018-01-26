@@ -1,14 +1,18 @@
 #!/bin/bash
 
-usage() { echo "Usage: $0 -r <repo prefix> [-a <build args for Docker image>]" 1>&2; exit 1; }
+usage() { echo "Usage: $0 -r <repo prefix> [-a <build args for Docker image>][-s (silent mode)]" 1>&2; exit 1; }
 
-while getopts ":r:a:" o; do
+SILENT=0
+while getopts ":r:a:s" o; do
     case "${o}" in
         r)
             REPO=${OPTARG}
             ;;
         a)
             ARGS=${OPTARG}
+            ;;
+        s)
+            SILENT=1
             ;;
         *)
             usage
@@ -52,28 +56,40 @@ echo
 echo '*** STEP 3. Publishing ***'
 echo
 
+publish() {
+    echo "Tag: ${IMG_TAG}:$1"
+    docker tag ${IMG_NAME} ${IMG_TAG}:$1
+    docker push ${IMG_TAG}:$1
+}
+
 echo "Tag name: ${IMG_TAG}"
 
-read -p "Do you want to publish the image with tag 'latest'? [y/n]: " -n 1 -r
-echo
-if [[ $REPLY =~ ^[Yy]$ ]]
+if [[ $SILENT = 0 ]]
 then
-    echo "Tag: ${IMG_TAG}:latest"
-    docker tag ${IMG_NAME} ${IMG_TAG}:latest
-    docker push ${IMG_TAG}:latest
+    read -p "Do you want to publish the image with tag 'latest'? [y/n]: " -n 1 -r
+    echo
+    if [[ $REPLY =~ ^[Yy]$ ]]
+    then
+        publish latest
+    else
+        echo '...skipped'
+    fi
 else
-    echo '...skipped'
+    publish latest
 fi
 
-read -p "Do you want to publish the image with tag '${IMG_VER}'? [y/n]: " -n 1 -r
-echo
-if [[ $REPLY =~ ^[Yy]$ ]]
+if [[ $SILENT = 0 ]]
 then
-    echo "Tag: ${IMG_TAG}:${IMG_VER}"
-    docker tag ${IMG_NAME} ${IMG_TAG}:${IMG_VER}
-    docker push ${IMG_TAG}:${IMG_VER}
+    read -p "Do you want to publish the image with tag '${IMG_VER}'? [y/n]: " -n 1 -r
+    echo
+    if [[ $REPLY =~ ^[Yy]$ ]]
+    then
+        publish ${IMG_VER}
+    else
+        echo '...skipped'
+    fi
 else
-    echo '...skipped'
+    publish ${IMG_VER}
 fi
 
 echo

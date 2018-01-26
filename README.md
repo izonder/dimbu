@@ -43,6 +43,8 @@ Parameters:
 
 `a` - (optional) build arguments for Docker images, e.g. `'--build-arg FOO=bar --build-arg BAZ=boo'`
 
+`s` - (optional) silent mode to publish package without prompts 
+
 ## FAQ
 
 **Q.** Who is Dimbu?
