@@ -41,7 +41,9 @@ Parameters:
 
 `r` - repo namespace, e.g. `myrepo/` or `myregistry.tld:5000/myrepo/`
 
-`a` - (optional) build arguments for Docker images, e.g. `'--build-arg FOO=bar --build-arg BAZ=boo'`
+`a` - (optional) extra arguments for `docker build` command line, e.g. `'--build-arg FOO=bar --compress'`
+
+`b` - (optional) `--build-arg` clause, e.g. `'FOO=bar'` will be transformed as `--build-arg "FOO=bar"` (NOTE! Only last entry will be taken into account)
 
 `s` - (optional) silent mode to publish package without prompts 
 

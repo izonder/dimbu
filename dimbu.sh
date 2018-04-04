@@ -1,12 +1,15 @@
 #!/bin/bash
 
-usage() { echo "Usage: $0 -r <repo prefix> [-a <build args for Docker image>][-s (silent mode)]" 1>&2; exit 1; }
+usage() { echo "Usage: $0 -r <repo prefix> [-b <--build-arg clause>][-a <extra args for Docker image>][-s (silent mode)]" 1>&2; exit 1; }
 
 SILENT=0
-while getopts ":r:a:s" o; do
+while getopts ":r:b:a:s" o; do
     case "${o}" in
         r)
             REPO=${OPTARG}
+            ;;
+        b)
+            BUILD_ARG=${OPTARG}
             ;;
         a)
             ARGS=${OPTARG}
@@ -42,7 +45,7 @@ echo
 echo '*** STEP 2. Building ***'
 echo
 
-docker build --no-cache --pull -t ${IMG_NAME} ${ARGS:-} ${ROOT}
+docker build --no-cache --pull -t ${IMG_NAME} ${ARGS:-} --build-arg "${BUILD_ARG}" ${ROOT}
 
 if [ $? -eq 0 ]
 then
